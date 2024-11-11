@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Fiancée</title>
+    <style>
+         body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Georgia', serif;
+            color: #b22222;
+            background-color: #ffe4e1;
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+       
+        .flower {
+            position: absolute;
+            font-size: 1.5em;
+            color: #ff6347;
+            opacity: 0.6;
+            animation: glow 5s infinite alternate, drift 15s infinite linear;
+            cursor: pointer;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        @keyframes glow {
+            from { opacity: 0.6; }
+            to { opacity: 1; transform: scale(1.1); }
+        }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+            100% { transform: translate(-30px, 30px); }
+        }
+
+        
+        .container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 600px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-height: 80vh;
+            z-index: 10;
+            overflow: hidden;
+            display: none; 
+            opacity: 0;
+        }
+
+        .container.open {
+            display: block; 
+            animation: openLetter 1s ease-out forwards; 
+        }
+
+        
+        @keyframes openLetter {
+            0% { transform: translate(-50%, -50%) scale(0.1); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        
+        .envelope {
+            background-color: #f8d7da;
+            border-radius: 10px;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            padding: 20px;
+            cursor: pointer;
+            text-align: center;
+            transition: transform 0.4s ease-in-out;
+        }
+
+        .envelope:after {
+            content: "❤️";
+            font-size: 3em;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+       
+        .envelope p {
+            font-size: 1.2em;
+            color: #b22222;
+            text-align: center;
+        }
+
+        
+        .heart {
+            font-size: 5em; 
+            color: #ff69b4;
+            cursor: pointer;
+            transition: transform 0.2s ease, color 0.3s ease;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+        }
+
+        .heart:active {
+            transform: scale(1.2);
+        }
+
+        .heart:hover {
+            color: #ff1493;
+        }
+
+        
+        h1 {
+            font-size: 2.5em;
+            color: #ff69b4;
+            margin-bottom: 20px;
+        }
+
+        p {
+            line-height: 1.8;
+            font-size: 1.1em;
+            color: #b22222;
+            margin-bottom: 40px;
+            white-space: pre-wrap; 
+            max-height: 60vh;
+            overflow-y: scroll; 
+            transition: opacity 1s ease-out;
+        }
+
+       
+        .close-heart {
+            font-size: 2.5em;
+            color: #ff69b4;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .close-heart:active {
+            transform: scale(1.2);
+        }
+
+        .close-heart:hover {
+            color: #ff1493;
+        }
+
+    </style>
+</head>
+<body>
+
+    
+    <audio id="backgroundMusic" src="DANIEL - 은방울 (Lily of the Valley).mp3" type="audio/mpeg"></audio>
+
+    <div class="container" id="letter">
+        <h1> FOR MY CHARMING FIANCEE</h1>
+        <p>
+            My dear, Zappy...<br><br>
+            Happy (not) Birthday! Haha, just kidding! This is actually the second letter I’ve written for you, and I just wanted to say a few things.
+
+            First of all, thank you for staying in my life even after I confessed my feelings for you. I know you can’t reciprocate those feelings right now, and that’s completely okay—I’m not expecting or asking for anything in return. All I really want is to be here for you, to be someone you can rely on. So please, no matter what, let’s stay friends. I don’t want to lose you; I’ve been down that road before, and it’s incredibly hard to feel alone.
+            
+            This letter is my way of showing you just how much I appreciate you and how much I care about you. I’m sorry if I became a little too attached or developed feelings, but I trust that one day, when things fall into place and you and your special someone are ready to take that next step together, my feelings will settle too. So don’t worry about me—I’m okay with how things are now.
+            
+            You might wonder why I still go out of my way to make these small gestures, even if there’s no chance of us being more than friends. Well, it’s simple. I want you to feel the love, care, and attention you truly deserve. I’m doing this because I want you to know that you’re worthy of all that and more. So let me be here for you, let me do these small things until the day comes when you’re ready for that with someone special.
+            
+            Thank you, Zap, for everything. 😊 ❤️<br><br>
+            Your admirer, Charlie.
+        </p>
+        <div class="close-heart" id="closeHeart" onclick="closeLetter()">❤️</div>
+    </div>
+
+    <div class="envelope" id="envelope">
+        <p>Click the heart to open the letter!</p>
+        <div class="heart" id="heart" onclick="openLetter()">❤️</div>
+    </div>
+
+    <script>
+        const flowerTypes = ["🌸", "🌹", "🌺", "🌼"];
+
+        function generateFlowers() {
+            for (let i = 0; i < 100; i++) {
+                const flower = document.createElement("div");
+                flower.classList.add("flower");
+                flower.textContent = flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
+                flower.style.top = `${Math.random() * 100}vh`;
+                flower.style.left = `${Math.random() * 100}vw`;
+                flower.style.fontSize = `${1.2 + Math.random()}em`;
+                flower.style.animationDelay = `${Math.random() * 5}s`;
+
+                flower.addEventListener("click", function() {
+                    flower.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+                    flower.style.opacity = "0";
+                    flower.style.transform = "scale(0)";
+
+                    setTimeout(() => {
+                        flower.style.opacity = "1";
+                        flower.style.transform = "scale(1)";
+                        flower.style.top = `${Math.random() * 100}vh`;
+                        flower.style.left = `${Math.random() * 100}vw`;
+                    }, 500);
+                });
+
+                document.body.appendChild(flower);
+            }
+        }
+
+        generateFlowers();
+
+        function openLetter() {
+            document.getElementById("letter").classList.add("open");
+            document.getElementById("envelope").style.display = "none"; 
+            
+            
+            const music = document.getElementById("backgroundMusic");
+            music.play();
+        }
+
+        function closeLetter() {
+            document.getElementById("letter").classList.remove("open");
+            document.getElementById("envelope").style.display = "block"; 
+            
+            
+            const music = document.getElementById("backgroundMusic");
+            music.pause();
+        }
+    </script>
+</body>
+</html>
